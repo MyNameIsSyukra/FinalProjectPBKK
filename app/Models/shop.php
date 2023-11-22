@@ -15,7 +15,8 @@ class shop extends Model
         'phone_number',
         'address',
     ];
-    public function product() : HasMany {
+    public function product(): HasMany
+    {
         return $this->hasMany(product::class);
     }
 }
