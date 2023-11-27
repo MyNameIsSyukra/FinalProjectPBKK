@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::table('users',function(Blueprint $table){
             $table->string('address')->nullable()->change();
             $table->string('phoneNumber')->nullable()->change();
-            $table->string('role')->default('Buyer')->change();
+            $table->string('role')->default('1')->change();
 
         });
     }
