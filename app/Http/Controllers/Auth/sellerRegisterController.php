@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\shop;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
@@ -13,14 +14,18 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 
-class RegisteredUserController extends Controller
+class sellerRegisterController extends Controller
 {
     /**
      * Display the registration view.
      */
     public function create(): View
     {
-        return view('auth.register');
+        return view('auth.registerSeller');
+    }
+    public function index(): View
+    {
+        return view('auth.registerShop');
     }
 
     /**
@@ -42,13 +47,39 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
             'address' => $request->address,
             'phoneNumber' => $request->phoneNumber,
-            'role' => '0'
+            'role' => '1'
         ]);
+
+        // dd($user);
+
+        // shop::create([
+        //     'name' => $request->nameShop,
+        //     'address' => $request->address,
+        //     'phoneNumber' => $request->phoneNumber,
+        //     'user_id' => Auth::user()->id,
+        // ]);
 
         event(new Registered($user));
 
         Auth::login($user);
+        return redirect('/registerSeller/shopRegister');
+    }
+    public function makeShop(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'nameShop' => ['required', 'string', 'max:255'],
+            'address' => ['required', 'string', 'max:255'],
+            'phoneNumber' => ['required', 'string', 'max:255'],
+        ]);
 
-        return redirect('/homepages');
+        shop::create([
+            'name' => $request->nameShop,
+            'email' => $request->email,
+            'address' => $request->address,
+            'phone_number' => $request->phoneNumber,
+            'user_id' => Auth::user()->id,
+        ]);
+
+        return redirect('/sellerDashboard');
     }
 }
