@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use App\Models\product;
-use App\Models\productCategory;
 use App\Models\shop;
+use App\Models\order;
+use App\Models\product;
+use Illuminate\Http\Request;
+use App\Models\productCategory;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class sellerDashboardController extends Controller
 {
@@ -17,11 +19,11 @@ class sellerDashboardController extends Controller
         // dd($shop);
         $product = product::all();
         // dd($product);
-        return view('dashboardSeller', compact('shop'), compact('product'));
+        return view('seller.dashboardSeller', compact('shop'), compact('product'));
     }
     public function create()
     {
-        return view('addproduct');
+        return view('seller.addproduct');
     }
 
     public function store(Request $request)
@@ -48,5 +50,49 @@ class sellerDashboardController extends Controller
             'shop_id' => $shop_id,
         ]);
         return redirect()->route('sellerDashboard')->with(['status' => 'success']);
+    }
+    public function orderViewSeller()
+    {
+        $id_user = Auth::user()->id;
+        $shop = shop::all()->where('user_id', $id_user);
+        $id_shop = shop::all()->where('user_id', $id_user);
+        $id_shopArray = $id_shop->toArray();
+        // $order = order::with('product')->where('shop_id', $id_Shop)->get();
+
+        $ordersArray = [];
+        foreach ($id_shopArray as $id_shop) {
+            $orders = DB::table('orders')
+                ->join('products', 'orders.product_id', '=', 'products.id')
+                ->select('orders.*', 'products.shop_id', 'products.name', 'products.price', 'products.photo')
+                ->where('products.shop_id', '=', $id_shop)
+                ->get();
+            array_push($ordersArray, $orders);
+        }
+        // $orders = DB::table('orders')
+        //     ->join('products', 'orders.product_id', '=', 'products.id')
+        //     ->select('orders.*', 'products.*')
+        //     ->where('products.shop_id', '=', $id_shop)
+        //     ->get();
+
+        // dd($ordersArray);
+        return view('seller.SellerMyOrder', compact('shop'), compact('ordersArray'));
+    }
+
+    public function deleteOrder(order $order, string $id)
+    {
+        // $id = '0';
+        // dd($id);
+        $order = order::find($id);
+        $order->delete();
+        return redirect()->route('orderViewSeller');
+    }
+
+    public function deleteProduct(product $product, string $id)
+    {
+        // $id = '0';
+        // dd($id);
+        $product = product::find($id);
+        $product->delete();
+        return redirect()->route('sellerDashboard');
     }
 }
