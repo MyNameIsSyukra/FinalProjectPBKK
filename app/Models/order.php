@@ -11,13 +11,18 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class order extends Model
 {
     use HasFactory;
-    protected $fillable = ['total', 'user_id', 'status_payment', 'amount', 'screenshot'];
-    public function order_details(): HasMany
-    {
-        return $this->hasMany(orderDetails::class);
-    }
+    protected $fillable = ['total', 'user_id', 'product_id', 'status_payment', 'amount', 'screenshot', 'quantity'];
+    // public function order_details(): HasMany
+    // {
+    //     return $this->hasMany(orderDetails::class);
+    // }
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function product(): BelongsTo
+    {
+        return $this->belongsTo(product::class);
     }
 }

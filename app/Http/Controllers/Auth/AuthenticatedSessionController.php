@@ -29,7 +29,11 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(RouteServiceProvider::HOME);
+        if (Auth::check() && auth()->user()->role == '1') {
+            return redirect('/sellerDashboard');
+        } else {
+            return redirect('/homepages');
+        }
     }
 
     /**
@@ -45,4 +49,21 @@ class AuthenticatedSessionController extends Controller
 
         return redirect('/');
     }
+
+    // public function createSeller(): View
+    // {
+    //     return view('auth.login');
+    // }
+
+    // /**
+    //  * Handle an incoming authentication request.
+    //  */
+    // public function storeSeller(LoginRequest $request): RedirectResponse
+    // {
+    //     $request->authenticate();
+
+    //     $request->session()->regenerate();
+
+    //     return redirect('/sellerDashboard');
+    // }
 }

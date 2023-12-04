@@ -1,61 +1,159 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Marketplace</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../css/app.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <title>{{ config('app.name', 'Laravel') }}</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+
+    <!-- Scripts -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body>
     <!-- header -->
-    <header class="bg-transparent absolute pl-12 top-0 w-full flex items-center z-10">
-        <div class="container">
-            <div class="flex items-center justify-between relative">
-                <div class="px-4">
-                    <a href="#home" class="font-bold text-lg block py-6">E-Commerce</a>
-                </div>
-                <div class="flex items-center px-4">
-                    <button data-collapse-toggle="navbar-default" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-default" aria-expanded="false">
-                        <span class="sr-only">Open main menu</span>
-                        <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15" />
-                        </svg>
-                    </button>
-                    <div class="hidden w-full md:block md:w-auto" id="navbar-default">
-                        <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+    <header>
+
+        <nav x-data="{ open: false }" class="bg-white">
+            <!-- Primary Navigation Menu -->
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between h-16">
+                    <div class="flex">
+                        <!-- Logo -->
+                        <div class="shrink-0 flex items-center">
+                            <a href="{{ route('homepage') }}">
+                                <x-application-logo class="block h-9 w-auto fill-current" />
+                            </a>
+                        </div>
+
+                        <!-- Navigation Links -->
+                        <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                            <x-nav-link :href="route('homepage')" :active="request()->routeIs('homepage')">
+                                {{ __('Dashboard') }}
+                            </x-nav-link>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <form method="GET" action="{{ route('homepage') }}" class="flex">
+                            <input type="search" name="search" id="search" class="form-control bg-transparent border-solid" placeholder="Search" value="{{ request('search') }}">
+
+                            <div class="px-3 py-3 py-xl-0"></div>
+
+                            <div class="flex items-center">
+                                <label for="genre" class="pr-1 text-nowrap">Category:</label>
+                                <select name="genre" id="genre" class="bg-transparent">
+                                    <option value="all" {{ request('genre') == 'all' ? 'selected' : '' }}>All Genre</option>
+                                    @foreach (\App\Models\productCategory::all() as $genre)
+                                    <option value="{{ $genre->name }}" {{ request('genre') == $genre->name ? 'selected' : '' }}>
+                                        {{ $genre->name }}
+                                    </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+
+
+                    <div>
+                        <ul class="mt-4 font-medium flex flex-col p-4 md:p-0 md:flex-row md:space-x-8 rtl:space-x-reverse ">
                             <li>
-                                <a href="#" class="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500" aria-current="page">Home</a>
+                                <a href="/homepages/MyCart" class="inline-flex items-center py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">Cart</a>
                             </li>
                             <li>
-                                <a href="#" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Cart</a>
+                                <!-- Settings Dropdown -->
+                                <div class="hidden sm:flex sm:items-center">
+                                    <x-dropdown align="right" width="48">
+                                        <x-slot name="trigger">
+                                            <button class="inline-flex items-center py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
+                                                <div>Register</div>
+
+                                                <div class="ms-1">
+                                                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                                    </svg>
+                                                </div>
+                                            </button>
+                                        </x-slot>
+
+                                        <x-slot name="content">
+                                            <x-dropdown-link :href="route('registerUser')">
+                                                User
+                                            </x-dropdown-link>
+                                            @csrf
+                                            <x-dropdown-link :href="route('registerSeller')">
+                                                Seller
+                                            </x-dropdown-link>
+                                        </x-slot>
+                                    </x-dropdown>
+                                </div>
                             </li>
                             <li>
-                                <a href="/register" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Register</a>
-                            </li>
-                            <!-- <li>
-                                <a href="#" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Pricing</a>
-                            </li> -->
-                            <li>
-                                <a href="/login" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Login</a>
+                                <a href="{{ route('login') }}" class=" inline-flex items-center py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">Login</a>
                             </li>
                         </ul>
                     </div>
+
+                    <!-- Hamburger -->
+                    <div class="-me-2 flex items-center sm:hidden">
+                        <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-900 focus:text-gray-500 dark:focus:text-gray-400 transition duration-150 ease-in-out">
+                            <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                                <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                                <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
+            <!-- Responsive Navigation Menu -->
+            <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
+                <div class="pt-2 pb-3 space-y-1">
+                    <x-responsive-nav-link :href="route('homepage')" :active="request()->routeIs('homepage')">
+                        {{ __('Dashboard') }}
+                    </x-responsive-nav-link>
+                </div>
+
+                <!-- Responsive Settings Options -->
+                <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
+                    <div class="mt-3 space-y-1">
+                        <x-responsive-nav-link :href="route('profile.edit')">
+                            {{ __('Profile') }}
+                        </x-responsive-nav-link>
+
+                        <!-- Authentication -->
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+
+                            <x-responsive-nav-link :href="route('logout')" onclick="event.preventDefault();
+                                        this.closest('form').submit();">
+                                {{ __('Log Out') }}
+                            </x-responsive-nav-link>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+
     </header>
 
     <!-- Hero -->
-    <section class="mt-40 items-center">
-        <div class="grid grid-cols-1 md:grid-cols-2">
-            <div class="container p-20 flex align-middle items-center ">
+    <section class=" items-center" style="background: url({{ asset('9579708.jpg') }});
+            background-size: cover;
+            height: 125vh">
 
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi recusandae animi corrupti harum deserunt nihil, inventore numquam accusantium pariatur sit perferendis architecto voluptates odio officiis eligendi repudiandae modi incidunt nemo.</p>
+        <div class="p-20 grid grid-cols-1 md:grid-cols-2">
+            <div class="flex flex-col justify-center text-center">
+                <h1>Mau Belanja??</h1>
+                <h2>E-Commerce-in Ajaa!!</h2>
+                <p>Belanja barang-barang kebutuhanmu dengan mudah dan cepat</p>
             </div>
-            <div class="container">
+            <div class="container flex align-middle items-center">
                 <svg transform="scale(0.6)" xmlns="http://www.w3.org/2000/svg" data-name="Layer 1" width="879.12502" height="631.48453" viewBox="0 0 879.12502 631.48453" xmlns:xlink="http://www.w3.org/1999/xlink">
                     <rect id="b93b1ef9-49b5-4354-905b-d9dddde45a10" data-name="Rectangle 338" x="0.27499" y="0.36501" width="644.72498" height="412.91" fill="#e6e6e6" />
                     <rect id="ef7485f9-8ecd-46d9-949e-abdd8aa9e360" data-name="Rectangle 339" x="18.711" y="52.15401" width="607.85303" height="336.69299" fill="#fff" />
@@ -115,46 +213,32 @@
         </div>
     </section>
     <!-- adds card sec -->
-    <section class=" items-center mt-10 ">
-        <div class=" grid grid-cols-4 m-20 gap-8">
-
+    <section class=" items-center" style="background-color: #b7aeff;">
+        <div class=" p-20 grid grid-cols-1 md:grid-cols-3 gap-8">
             @foreach ($data as $item )
-            <div class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                <a href="#">
-                    <img class="p-8 rounded-t-lg" src="{{$item->photo}}" alt="product image" />
+            <div class="max-w-sm flex-col text-center rounded overflow-hidden shadow-lg">
+                <a href="/homepage/detail/{{$item->id}}">
+                    <img class="p-8 rounded-t-lg w-full h-100" src="{{asset('storage/images/'.$item->photo)}}" alt="product image" />
+                    <!-- <h1>BJIRRRR</h1> -->
                 </a>
                 <div class="px-5 pb-5">
                     <a href="#">
                         <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{{$item->name}}</h5>
                     </a>
-                    <div class="flex items-center mt-2.5 mb-5">
-                        <div class="flex items-center space-x-1 rtl:space-x-reverse">
-                            <svg class="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                            </svg>
-                            <svg class="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                            </svg>
-                            <svg class="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                            </svg>
-                            <svg class="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                            </svg>
-                            <svg class="w-4 h-4 text-gray-200 dark:text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
-                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                            </svg>
+                    <div class="flex-col items-center mt-2.5 mb-5">
+                        <div class="space-x-1 rtl:space-x-reverse">
+                            {{$item->description}}
                         </div>
-                        <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ms-3">5.0</span>
+                        <!-- <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ms-3">5.0</span> -->
                     </div>
-                    <div class="flex items-center justify-between">
-                        <span class="text-3xl font-bold text-gray-900 dark:text-white">{{$item->price}}</span>
-                        <a href="#" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add to cart</a>
+                    <span class="text-3xl font-bold text-gray-900 dark:text-white">{{$item->price}}</span>
+                    <div class=" flex-col items-center justify-between mt-7">
+                        <a href="/homepages/addToCart/{{$item->id}}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add to cart</a>
+                        <a href="/homepages/orderNow/{{$item->id}}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Order Now</a>
                     </div>
                 </div>
             </div>
             @endforeach
-
         </div>
     </section>
 </body>
