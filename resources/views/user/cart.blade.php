@@ -56,6 +56,7 @@
                         @if (Auth::user()->role == 0)
                         <li>
                             <a href="/homepages/MyCart" class="inline-flex items-center py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">Cart</a>
+                            <a href="/homepages/MyOrder" class="inline-flex items-center py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">My Order</a>
                         </li>
                         @endif
                         <li>
@@ -147,14 +148,15 @@
                 <th class="px-4 py-2">Product Name</th>
                 <th class="px-4 py-2">Price</th>
                 <th class="px-4 py-2"></th>
+                <th class="px-4 py-2"></th>
                 <!-- Add more table headers here if needed -->
             </tr>
         </thead>
         <tbody>
-            @foreach ($data as $product)
-            <tr class="border-b dark:border-gray-700 text-center">
+            @foreach ($data as $product)            
+            <tr class="border-b dark:border-gray-700 text-center" id="cart-list">
                 <td class="px-4 py-2">{{ $product->name }}</td>
-                <td class="px-4 py-2">{{ $product->price }}</td>
+                <td class="px-4 py-2" >{{ $product->price }}</td>
                 <td class="px-4 py-2">
                     <form method="POST" action="/homepages/deleteCart/{{$product->id}}">
                         @csrf
@@ -162,8 +164,36 @@
                         <button class="btn btn-primary m-3">Delete</button>
                     </form>
                 </td>
+                <td class="px-4 py-2 checkbox">
+                    <input type="checkbox" value="{{$product->price}}"
+                     name="selectedOrder[]" onchange="getCheckedValues(this)">
+                </td>
             </tr>
             @endforeach
+            <td style="overflow: hidden; width: 280px; text-align: left; valign: top; whitespace: nowrap;" id="result">Selected values: 0 </td>
+            <script>
+                var count = 0;
+                function getCheckedValues(product) {
+                const itemsList = product;
+                if(product.checked == true){
+                    count += parseInt(product.value)
+                }
+                else{
+                    count -= parseInt(product.value)
+                }
+
+                // const checkedItems = itemsList.querySelectorAll("input[type='checkbox']:checked");
+                // const values = [];
+                // for (const item of checkedItems) {
+                //     values.push(item.value);
+                // }
+                const resultElement = document.getElementById("result");
+                // resultElement.innerText = `Selected values: ${count} and ${values.join(", ")}`;
+                resultElement.innerText = `Selected values: ${count} `;
+                console.log(product);
+                }
+            </script>
+            
         </tbody>
     </table>
 </body>

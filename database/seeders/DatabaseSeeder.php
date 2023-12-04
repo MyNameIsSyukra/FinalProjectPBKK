@@ -49,50 +49,50 @@ class DatabaseSeeder extends Seeder
         productCategory::create([
             'name' => 'other',
         ]);
-        // product::create([
-        //     'name' => 'supreme t-shirt',
-        //     'description' => 'belongs to supreme',
-        //     'price' => '10000',
-        //     'photo' => 'https://www.themoviedb.org/t/p/w300_and_h450_bestv2/AcfW3p5D6ov573fABLyGqwYdolD.jpg',
-        //     'product_category_id' => 1,
-        //     'quantity' => 15,
-        //     'shop_id' => 1,
-        // ]);
-        // product::create([
-        //     'name' => 'Appple Watch',
-        //     'description' => 'just apple',
-        //     'price' => '20000',
-        //     'photo' => 'https://www.themoviedb.org/t/p/w300_and_h450_bestv2/AcfW3p5D6ov573fABLyGqwYdolD.jpg',
-        //     'product_category_id' => 1,
-        //     'quantity' => 15,
-        //     'shop_id' => 1,
-        // ]);
-        // product::create([
-        //     'name' => 'Guci bag',
-        //     'description' => 'bag',
-        //     'price' => '10000',
-        //     'photo' => 'https://www.themoviedb.org/t/p/w300_and_h450_bestv2/AcfW3p5D6ov573fABLyGqwYdolD.jpg',
-        //     'product_category_id' => 1,
-        //     'quantity' => 15,
-        //     'shop_id' => 1,
-        // ]);
-        // product::create([
-        //     'name' => 'LV cap',
-        //     'description' => 'cap',
-        //     'price' => '10000',
-        //     'photo' => 'https://www.themoviedb.org/t/p/w300_and_h450_bestv2/AcfW3p5D6ov573fABLyGqwYdolD.jpg',
-        //     'product_category_id' => 1,
-        //     'quantity' => 15,
-        //     'shop_id' => 1,
-        // ]);
-        // product::create([
-        //     'name' => 'Saint lorenz watch',
-        //     'description' => 'watch',
-        //     'price' => '10000',
-        //     'photo' => 'https://www.themoviedb.org/t/p/w300_and_h450_bestv2/AcfW3p5D6ov573fABLyGqwYdolD.jpg',
-        //     'product_category_id' => 1,
-        //     'quantity' => 15,
-        //     'shop_id' => 1,
-        // ]);
+        product::create([
+            'name' => 'supreme t-shirt',
+            'description' => 'belongs to supreme',
+            'price' => '10000',
+            'photo' => 'https://www.themoviedb.org/t/p/w300_and_h450_bestv2/AcfW3p5D6ov573fABLyGqwYdolD.jpg',
+            'product_category_id' => 1,
+            'quantity' => 15,
+            'shop_id' => 1,
+        ]);
+        product::create([
+            'name' => 'Appple Watch',
+            'description' => 'just apple',
+            'price' => '20000',
+            'photo' => 'https://www.themoviedb.org/t/p/w300_and_h450_bestv2/AcfW3p5D6ov573fABLyGqwYdolD.jpg',
+            'product_category_id' => 1,
+            'quantity' => 15,
+            'shop_id' => 1,
+        ]);
+        product::create([
+            'name' => 'Guci bag',
+            'description' => 'bag',
+            'price' => '10000',
+            'photo' => 'https://www.themoviedb.org/t/p/w300_and_h450_bestv2/AcfW3p5D6ov573fABLyGqwYdolD.jpg',
+            'product_category_id' => 1,
+            'quantity' => 15,
+            'shop_id' => 1,
+        ]);
+        product::create([
+            'name' => 'LV cap',
+            'description' => 'cap',
+            'price' => '10000',
+            'photo' => 'https://www.themoviedb.org/t/p/w300_and_h450_bestv2/AcfW3p5D6ov573fABLyGqwYdolD.jpg',
+            'product_category_id' => 1,
+            'quantity' => 15,
+            'shop_id' => 1,
+        ]);
+        product::create([
+            'name' => 'Saint lorenz watch',
+            'description' => 'watch',
+            'price' => '10000',
+            'photo' => 'https://www.themoviedb.org/t/p/w300_and_h450_bestv2/AcfW3p5D6ov573fABLyGqwYdolD.jpg',
+            'product_category_id' => 1,
+            'quantity' => 15,
+            'shop_id' => 1,
+        ]);
     }
 }
