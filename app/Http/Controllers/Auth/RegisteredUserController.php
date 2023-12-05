@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Wallet;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -44,6 +45,12 @@ class RegisteredUserController extends Controller
             'phoneNumber' => $request->phoneNumber,
             'role' => '0'
         ]);
+
+        Wallet::create([
+            'amount' => 0,
+            'user_id' => $user->getKey()
+        ]);
+        
 
         event(new Registered($user));
 
