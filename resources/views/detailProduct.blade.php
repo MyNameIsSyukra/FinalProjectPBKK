@@ -37,26 +37,6 @@
                         </x-nav-link>
                     </div>
                 </div>
-                <div class="flex items-center">
-                    <form method="GET" action="{{ route('homepage') }}" class="flex">
-                        <input type="search" name="search" id="search" class="form-control bg-transparent border-solid" placeholder="Search" value="{{ request('search') }}">
-
-                        <div class="px-3 py-3 py-xl-0"></div>
-
-                        <div class="flex items-center">
-                            <label for="genre" class="pr-1 text-nowrap">Category:</label>
-                            <select name="genre" id="genre" class="bg-transparent">
-                                <option value="all" {{ request('genre') == 'all' ? 'selected' : '' }}>All Genre</option>
-                                @foreach (\App\Models\productCategory::all() as $genre)
-                                <option value="{{ $genre->name }}" {{ request('genre') == $genre->name ? 'selected' : '' }}>
-                                    {{ $genre->name }}
-                                </option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </form>
-                </div>
-
 
                 <div>
                     <ul class="mt-4 font-medium flex flex-col p-4 md:p-0 md:flex-row md:space-x-8 rtl:space-x-reverse ">
@@ -142,7 +122,7 @@
     <section class="mt-40">
         <div class="grid grid-cols-1 md:grid-cols-2 items-center ">
             <div class="container p-7">
-                <img src="{{asset('storage/images/'.$product->photo)}}" alt="" class=" p-8">
+                <img src="{{$product->photo}}" alt="" class=" p-8">
             </div>
             <div class="container p-20">
                 <h1 class=" mb-5">

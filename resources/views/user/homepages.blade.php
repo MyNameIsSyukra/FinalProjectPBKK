@@ -77,6 +77,9 @@
                         <li>
                             <a href="/homepages/MyCart" class="inline-flex items-center py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">Cart</a>
                         </li>
+                        <li>
+                            <a href="/homepages/MyOrder" class="inline-flex items-center py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">MyOrder</a>
+                        </li>
                         @endif
                         <li>
                             <!-- Settings Dropdown -->
@@ -236,7 +239,7 @@
             @foreach ($data as $item )
             <div class="max-w-sm flex-col text-center rounded overflow-hidden shadow-lg">
                 <a href="/homepages/detail/{{$item->id}}">
-                    <img class="p-8 rounded-t-lg w-full h-100" src="{{asset('storage/images/'.$item->photo)}}" alt="product image" />
+                    <img class="p-8 rounded-t-lg w-full h-100" src="{{$item->photo}}" alt="product image" />
                     <!-- <h1>BJIRRRR</h1> -->
                 </a>
                 <div class="px-5 pb-5">
