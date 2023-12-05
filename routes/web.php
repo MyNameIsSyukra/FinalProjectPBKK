@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\addProductController;
 use App\Http\Controllers\Auth\sellerRegisterController;
 use App\Http\Controllers\sellerDashboardController;
+use App\Http\Controllers\WalletController;
 
 /*
 |--------------------------------------------------------------------------
@@ -67,6 +68,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+Route::controller(WalletController::class)->group(function(){
+    Route::post('/topup','requestTopup')->middleware(['auth','verified']);
 });
 
 Route::post('checkout/{productId}',[CartController::class,'addToCart']);
