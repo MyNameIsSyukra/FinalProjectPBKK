@@ -139,62 +139,54 @@
 
     </header>
     <section>
-        <div style="height: 125vh;
-                background-image: url({{ asset('bg_myorder.jpg') }});
-                background-position: center;
-                background-repeat: no-repeat;
-                background-size: cover;
-                filter: blur(8px); 
-                -webkit-filter: blur(8px);">
-        </div>
-        <div class=" container mx-auto p-4 mt-10" style=" z-index: 2;color: white; font-weight: bold; border: 3px solid #f1f1f1; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 2; width: 80%; padding: 20px;">
-            <p class="text-2xl font-bold mb-4">Dashboard Seller</p>
-            <a href="/sellerDashboard/addProduct" class="bg-blue-500 mb-4 text-white px-4 py-2 rounded-md">Add Product</a>
+        <!-- <div class=" container mx-auto p-4 mt-10" style=" z-index: 2;color: white; font-weight: bold; border: 3px solid #f1f1f1; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 2; width: 80%; padding: 20px;"> -->
+        <p class="text-2xl font-bold mb-4">Dashboard Seller</p>
+        <a href="/sellerDashboard/addProduct" class="bg-blue-500 mb-4 text-white px-4 py-2 rounded-md">Add Product</a>
 
-            @foreach ($shop as $shopName)
-            <div>
-                <h1 class="text-xl font-semibold my-4">{{ $shopName->name }}</h1>
-                <h1 class="mb-2">Items:</h1>
-                <div class="overflow-x-auto">
-                    <table class="min-w-full border-collapse table-auto">
-                        <thead>
-                            <tr class="bg-gray-200 dark:bg-gray-800 text-white">
-                                <th class="px-4 py-2">Product Name</th>
-                                <th class="px-4 py-2">Price</th>
-                                <th class="px-4 py-2">Quantity</th>
-                                <th class="px-4 py-2"></th>
-                                <!-- Add more table headers here if needed -->
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (\App\Models\Product::all()->where('shop_id', $shopName->id) as $item)
-                            <tr class="border-b dark:border-gray-700 text-center">
-                                <td class="px-4 py-2">{{ $item->name }}</td>
-                                <td class="px-4 py-2">{{ $item->price }}</td>
-                                <td class="px-4 py-2">{{ $item->quantity }}</td>
-                                <td class="px-4 py-2">
-                                    <form method="POST" action="/sellerDashboard/MyProductSellerEdit/{{$item->id}}">
-                                        <!-- <a href="/sellerDashboard/MyOrderSellerDelete/{{$item->id}}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Delete</a> -->
-                                        @csrf
-                                        @method('UPDATE')
-                                        <button class="btn btn-primary m-3">Edit</button>
-                                    </form>
-                                    <form method="POST" action="/sellerDashboard/MyProductSellerDelete/{{$item->id}}">
-                                        <!-- <a href="/sellerDashboard/MyOrderSellerDelete/{{$item->id}}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Delete</a> -->
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="btn btn-primary m-3">Delete</button>
-                                    </form>
-                                </td>
-                                <!-- Add more table data here if needed -->
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
+        @foreach ($shop as $shopName)
+        <div>
+            <h1 class="text-xl font-semibold my-4">{{ $shopName->name }}</h1>
+            <h1 class="mb-2">Items:</h1>
+            <div class="overflow-x-auto">
+                <table class="min-w-full border-collapse table-auto">
+                    <thead>
+                        <tr class="bg-gray-200 dark:bg-gray-800 text-white">
+                            <th class="px-4 py-2">Product Name</th>
+                            <th class="px-4 py-2">Price</th>
+                            <th class="px-4 py-2">Quantity</th>
+                            <th class="px-4 py-2"></th>
+                            <!-- Add more table headers here if needed -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (\App\Models\Product::all()->where('shop_id', $shopName->id) as $item)
+                        <tr class="border-b dark:border-gray-700 text-center">
+                            <td class="px-4 py-2">{{ $item->name }}</td>
+                            <td class="px-4 py-2">{{ $item->price }}</td>
+                            <td class="px-4 py-2">{{ $item->quantity }}</td>
+                            <td class="px-4 py-2">
+                                <form method="GET" action="/sellerDashbord/MyProductSellerEdit/{{$item->id}}">
+                                    <!-- <a href="/sellerDashboard/MyOrderSellerDelete/{{$item->id}}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Delete</a> -->
+                                    @csrf
+                                    @method('GET')
+                                    <button class="btn btn-primary m-3">Edit</button>
+                                </form>
+                                <form method="POST" action="/sellerDashboard/MyProductSellerDelete/{{$item->id}}">
+                                    <!-- <a href="/sellerDashboard/MyOrderSellerDelete/{{$item->id}}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Delete</a> -->
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-primary m-3">Delete</button>
+                                </form>
+                            </td>
+                            <!-- Add more table data here if needed -->
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
-            @endforeach
         </div>
+        @endforeach
+        <!-- </div> -->
     </section>
 </body>
 

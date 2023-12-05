@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfileController;
 use App\Models\product;
 use App\Http\Controllers\homepageController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\productController;
 use App\Http\Controllers\addProductController;
 use App\Http\Controllers\Auth\sellerRegisterController;
 use App\Http\Controllers\sellerDashboardController;
@@ -44,13 +45,18 @@ Route::controller(sellerRegisterController::class)->group(function () {
 
 Route::controller(sellerDashboardController::class)->group(function () {
     Route::get('/sellerDashboard', 'index')->middleware('seller')->name('sellerDashboard');
-    Route::get('/sellerDashboard/addProduct', 'create')->middleware('seller')->name('addProduct');
-    Route::post('/sellerDashboard/addProduct', 'store')->middleware('seller')->name('addProduct');
     Route::get('/sellerDashboard/MyOrderSeller', 'orderViewSeller')->middleware('seller')->name('orderViewSeller');
-    Route::delete('/sellerDashboard/MyProductSellerDelete/{id}', 'deleteProduct')->middleware('seller')->name('deleteProduct');
     Route::delete('/sellerDashboard/MyOrderSellerDelete/{id}', 'deleteOrder')->middleware('seller')->name('deleteOrder');
 });
 
+
+Route::controller(productController::class)->group(function () {
+    Route::get('/sellerDashboard/addProduct', 'create')->middleware('seller')->name('addProduct');
+    Route::post('/sellerDashboard/addProduct', 'store')->middleware('seller')->name('addProduct');
+    Route::get('/sellerDashbord/MyProductSellerEdit/{id}', 'IndexeditProduct')->middleware('seller')->name('FormeditProduct');
+    Route::post('/sellerDashbord/MyProductSellerEdit/{id}', 'editProduct')->middleware('seller')->name('editProduct');
+    Route::delete('/sellerDashboard/MyProductSellerDelete/{id}', 'deleteProduct')->middleware('seller')->name('deleteProduct');
+});
 
 // Route::controller(addProductController::class)->group(function () {
 //     Route::get('/addProduct', 'index');
@@ -69,6 +75,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::post('checkout/{productId}',[CartController::class,'addToCart']);
+Route::post('checkout/{productId}', [CartController::class, 'addToCart']);
 
 require __DIR__ . '/auth.php';
