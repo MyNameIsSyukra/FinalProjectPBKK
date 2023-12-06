@@ -8,8 +8,15 @@
 </p>
 
 ## About Laravel
+Kelompok-14 PBKK D
+Anggota :
+1. Syukra Wahyu Ramadhan 5025211037
+2. Ihsannur Rahman Qalbi 05111940000090
+Link Video Demo : https://youtu.be/ZIHFHszPrWs
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+
+
 
 - [Simple, fast routing engine](https://laravel.com/docs/routing).
 - [Powerful dependency injection container](https://laravel.com/docs/container).
