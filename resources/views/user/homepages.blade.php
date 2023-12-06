@@ -71,16 +71,14 @@
                         </li>
                         @endif
 
-                        @endif
 
                         @if (Auth::user()->role == 0)
                         <li>
                             <a href="/homepages/MyCart" class="inline-flex items-center py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">Cart</a>
                             <a href="/homepages/MyOrder" class="inline-flex items-center py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">My Order</a>
                         </li>
-                        <li>
-                            <a href="/homepages/MyOrder" class="inline-flex items-center py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">MyOrder</a>
-                        </li>
+
+                        @endif
                         @endif
                         <li>
                             <!-- Settings Dropdown -->

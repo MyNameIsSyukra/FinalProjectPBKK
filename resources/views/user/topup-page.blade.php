@@ -32,9 +32,7 @@
 
                     <!-- Navigation Links -->
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <x-nav-link :href="route('homepages')" :active="request()->routeIs('homepages')">
-                            {{ __('Dashboard') }}
-                        </x-nav-link>
+                        <a href="/homepages" class="inline-flex items-center py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150" aria-current="page">Home</a>
                     </div>
                 </div>
 
@@ -142,7 +140,7 @@
         </div>
     </nav>
     <tr>
-    Current wallet amount: {{"$walletAmount"}}
+        Current wallet amount: {{"$walletAmount"}}
     </tr>
     <br>
     <!-- <div class="Input">
@@ -151,19 +149,18 @@
     </div> -->
     <br>
     <tr>
-        <form method="POST" action="/request-topup" >
-        @csrf
-        @method('POST')
-        <input type="text" id="amount" class="Input-text" name="amount"placeholder="Topup amount e.g. 1000000">
-        <label for="input" class="Input-label"></label>        
-        <button type="submit" 
-        class="focus:outline-none text-white bg-green-700 hover:bg-green-800 
+        <form method="POST" action="/request-topup">
+            @csrf
+            @method('POST')
+            <input type="text" id="amount" class="Input-text" name="amount" placeholder="Topup amount e.g. 1000000">
+            <label for="input" class="Input-label"></label>
+            <button type="submit" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 
         focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm 
         px-5 py-2.5 me-2 mb-2 dark:bg-green-600 
         dark:hover:bg-green-700 dark:focus:ring-green-800">Confirm Topup</button>
         </form>
     </tr>
-<!-- 
+    <!-- 
     <td class="px-4 py-2">
     <form method="POST" action="/homepages/deleteCart/product->id}}">
         @csrf   
@@ -171,6 +168,7 @@
         <button class="btn btn-primary m-3">Delete</button>
     </form>
     </td> -->
-    
+
 </body>
+
 </html>
