@@ -46,10 +46,10 @@ class RegisteredUserController extends Controller
             'role' => '0'
         ]);
 
-        Wallet::create([
-            'amount' => 0,
-            'user_id' => $user->getKey()
-        ]);
+        // Wallet::create([
+        //     'amount' => 0,
+        //     'user_id' => $user->getKey()
+        // ]);
         
 
         event(new Registered($user));
