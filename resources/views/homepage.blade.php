@@ -212,6 +212,7 @@
             </div>
         </div>
     </section>
+
     <!-- adds card sec -->
     <section class=" items-center" style="background-color: #b7aeff;">
         <div class=" p-20 grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -219,7 +220,6 @@
             <div class="max-w-sm flex-col text-center rounded overflow-hidden shadow-lg" style="background-color: #5d45c6;">
                 <a href=" /homepage/detail/{{$item->id}}">
                     <img class="p-8 rounded-t-lg w-full h-100" src="{{$item->photo}}" alt="product image" />
-                    <!-- <h1>BJIRRRR</h1> -->
                 </a>
                 <div class="px-5 pb-5">
                     <a href="#">
@@ -240,7 +240,13 @@
             </div>
             @endforeach
         </div>
+
+        <div style="margin: auto; width: 30%;padding: 10px;">
+            {{$data->links()}}
+
+        </div>
     </section>
+
 </body>
 
 </html>

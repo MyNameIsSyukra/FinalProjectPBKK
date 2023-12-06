@@ -46,7 +46,7 @@ Route::controller(sellerRegisterController::class)->group(function () {
 Route::controller(sellerDashboardController::class)->group(function () {
     Route::get('/sellerDashboard', 'index')->middleware('seller')->name('sellerDashboard');
     Route::get('/sellerDashboard/MyOrderSeller', 'orderViewSeller')->middleware('seller')->name('orderViewSeller');
-    Route::delete('/sellerDashboard/MyOrderSellerDelete/{id}', 'deleteOrder')->middleware('seller')->name('deleteOrder');
+    Route::delete('/sellerDashboard/MyOrderSellerConfirm/{id}', 'confirmOrder')->middleware('seller')->name('deleteOrder');
 });
 
 

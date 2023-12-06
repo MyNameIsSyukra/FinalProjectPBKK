@@ -32,9 +32,7 @@
 
                     <!-- Navigation Links -->
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <x-nav-link :href="route('homepages')" :active="request()->routeIs('homepages')">
-                            {{ __('Dashboard') }}
-                        </x-nav-link>
+                        <a href="/homepages" class="inline-flex items-center py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150" aria-current="page">Home</a>
                     </div>
                 </div>
 
@@ -143,7 +141,6 @@
 
 
     <section>
-        @foreach ($data as $orders )
         <div class="overflow-x-auto">
             <table class="min-w-full table-auto">
                 <thead>
@@ -156,6 +153,7 @@
                         <th class="px-4 py-2">Payment Screenshot</th>
                     </tr>
                 </thead>
+                @foreach ($data as $orders )
                 <tbody>
                     <tr class="text-center">
                         <td class="border px-4 py-2">{{$orders->product->name}}</td>

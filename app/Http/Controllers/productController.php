@@ -34,7 +34,10 @@ class productController extends Controller
         // dd($shop_id);
         $request->validate([
             'nama' => 'required|min:3|max:30',
-            'foto' => 'required|max:2048|mimes:jpg,jpeg,png'
+            'foto' => 'required|max:2048|mimes:jpg,jpeg,png',
+            'price' => 'required|numeric',
+            'description' => 'required|min:3|max:100',
+            'quantity' => 'required|numeric|min:1',
         ]);
 
         $request->foto->storeAs('public/images', $request->foto->getClientOriginalName());

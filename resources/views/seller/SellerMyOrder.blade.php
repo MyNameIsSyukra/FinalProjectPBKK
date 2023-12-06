@@ -142,12 +142,8 @@
     </nav>
 
 
-    <section style="background-image: url({{ asset('bg_myorder.jpg') }});
-                height: 125vh;
-                background-position: center;
-                background-repeat: no-repeat;
-                background-size: cover;">
-        <div class="">
+    <section>
+        <div class="max-w-4xl mx-auto py-8">
             <div class="overflow-x-auto">
                 <table class="min-w-full border-collapse table-auto">
                     <thead>
@@ -155,34 +151,36 @@
                             <th class="px-4 py-2">Product Name</th>
                             <th class="px-4 py-2">Price</th>
                             <th class="px-4 py-2">Quantity</th>
+                            <th class="px-4 py-2">Status</th>
+                            <th class="px-4 py-2">Bukti Pembayarn</th>
                             <th class="px-4 py-2"></th>
                         </tr>
                     </thead>
-                    @foreach ($ordersArray as $order )
-                    @foreach ($order as $items )
-
+                    @foreach ($ordersArray as $order)
+                    @foreach ($order as $items)
                     <tbody>
                         <tr class="border-b bg-transparent text-center">
                             <td class="px-4 py-2">{{ $items->name }}</td>
                             <td class="px-4 py-2">{{ $items->price }}</td>
                             <td class="px-4 py-2">{{ $items->quantity }}</td>
+                            <td class="px-4 py-2">{{ $items->status_payment }}</td>
+                            <td class="px-4 py-2">{{ $items->screenshot}}</td>
                             <td class="px-4 py-2">
-                                <form method="POST" action="/sellerDashboard/MyOrderSellerDelete/{{$items->id}}">
+                                <form method="POST" action="/sellerDashboard/MyOrderSellerConfirm/{{$items->id}}">
                                     @csrf
                                     @method('DELETE')
-                                    <button class="btn btn-primary m-3">Delete</button>
+                                    <button class="bg-red-500 text-white py-1 px-4 rounded-md">Confirm</button>
                                 </form>
                             </td>
-                            <!-- Add more table data here if needed -->
                         </tr>
                     </tbody>
+                    @endforeach
+                    @endforeach
                 </table>
             </div>
         </div>
-        @endforeach
-
-        @endforeach
     </section>
+
 
 
 </body>

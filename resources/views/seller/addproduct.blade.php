@@ -17,20 +17,20 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body style="background-color:  #d0e7d2 ;">
-    <div class="row" style="margin: 10vh;">
+<body style="background-color: grey ;">
+    <div class="row m-10">
         <div class="col-6 offset-3">
-            <div class="container border rounded" style="background-color:cadetblue;">
-                <div class="d-flex justify-content-center mt-3">
-                    <h1 class="mx-auto">DATA DIRI</h1>
+            <div class="container border rounded bg-gray-300">
+                <div class="flex justify-center mt-3">
+                    <h1 class="mx-auto text-4xl font-bold">DATA DIRI</h1>
                 </div>
                 <form method="POST" action="/sellerDashboard/addProduct" enctype="multipart/form-data">
                     @csrf
-                    <!-- <input type="shop" name="shop" id="shop" class="py-1 form-control" placeholder="shop" style="flex-basis: fit-content" value="{{ request('shop') }}"> -->
+
                     <div class="px-3 py-3 py-xl-0"></div>
 
-                    <div class="d-flex align-items-center m-3">
-                        <label for="shopname" class="pr-1 text-nowrap">Toko:</label>
+                    <div class="flex items-center m-3">
+                        <label for="shopname" class="pr-1 whitespace-nowrap">Toko:</label>
                         <select name="shopname" id="shopname" class="py-1">
                             @foreach (\App\Models\shop::all()->where('user_id',Auth::user()->id) as $shopname)
                             <option value="{{ $shopname->name }}" {{ request('shopname') == $shopname->name }}>
@@ -40,46 +40,34 @@
                         </select>
                     </div>
 
-                    {{-- Nama --}}
                     <div class="m-3">
                         <label for="nama" class="form-label">Nama</label>
-                        <input type="text" class="form-control" id="nama" name="nama" required>
+                        <input type="text" class="form-control bg-gray-100" id="nama" name="nama" required>
                         @error('nama')
-                        <div class="alert alert-danger">{{$message}}</div>
+                        <div class="text-red-500">{{$message}}</div>
                         @enderror
                     </div>
 
-                    {{-- Desc --}}
                     <div class="m-3">
                         <label for="description" class="form-label">Descrip</label>
-                        <input type="description" class="form-control" id="description" name="description" required>
+                        <input type="description" class="form-control bg-gray-100" id="description" name="description" required>
                         @error('description')
-                        <div class="alert alert-danger">{{$message}}</div>
+                        <div class="text-red-500">{{$message}}</div>
                         @enderror
                     </div>
 
-                    {{-- Price --}}
                     <div class="m-3">
                         <label for="price" class="form-label">Price</label>
-                        <input type="text" class="form-control" id="price" name="price" required>
+                        <input type="text" class="form-control bg-gray-100" id="price" name="price" required>
                         @error('price')
-                        <div class="alert alert-danger">{{$message}}</div>
+                        <div class="text-red-500">{{$message}}</div>
                         @enderror
                     </div>
-
-                    <!-- {{-- Category --}}
-                    <div class="m-3">
-                        <label for="product_category_id" class="form-label">Category</label>
-                        <input type="text" class="form-control" id="product_category_id" name="product_category_id" required>
-                        @error('product_category_id')
-                        <div class="alert alert-danger">{{$message}}</div>
-                        @enderror
-                    </div> -->
 
                     <div class="px-3 py-3 py-xl-0"></div>
 
-                    <div class="d-flex align-items-center m-3">
-                        <label for="product_category" class="pr-1 text-nowrap">Category:</label>
+                    <div class="flex items-center m-3">
+                        <label for="product_category" class="pr-1 whitespace-nowrap">Category:</label>
                         <select name="product_category" id="product_category" class="py-1">
                             @foreach (\App\Models\productCategory::all() as $product_category)
                             <option value="{{ $product_category->name }}" {{ request('product_category') == $product_category->name }}>
@@ -91,21 +79,20 @@
 
                     <div class="m-3">
                         <label for="foto" class="form-label">Foto</label>
-                        <input type="file" class="form-control" id="foto" name="foto" required>
+                        <input type="file" class="form-control bg-gray-100" id="foto" name="foto" required>
                         @error('foto')
-                        <div class="alert alert-danger">{{$message}}</div>
+                        <div class="text-red-500">{{$message}}</div>
                         @enderror
                     </div>
 
-                    {{-- quantity --}}
                     <div class="m-3">
                         <label for="quantity" class="form-label">Quantity</label>
-                        <input type="text" class="form-control" id="quantity" name="quantity" required>
+                        <input type="text" class="form-control bg-gray-100" id="quantity" name="quantity" required>
                         @error('quantity')
-                        <div class="alert alert-danger">{{$message}}</div>
+                        <div class="text-red-500">{{$message}}</div>
                         @enderror
                     </div>
-                    {{-- Tombol Submit --}}
+
                     <button type="submit" class="btn btn-primary m-3">Submit</button>
                 </form>
             </div>

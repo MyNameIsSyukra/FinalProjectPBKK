@@ -34,7 +34,7 @@ class DatabaseSeeder extends Seeder
             'phoneNumber' => '+6285749111111',
             'role' => 1,
         ]);
-
+        User::factory(10)->create();
         shop::create([
             'name' => 'guci',
             'email' => 'shop@email.com',
@@ -86,7 +86,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Guci bag',
             'description' => 'bag',
             'price' => '10000',
-            'photo' => 'https://www.themoviedb.org/t/p/w300_and_h450_bestv2/AcfW3p5D6ov573fABLyGqwYdolD.jpg',
+            'photo' => 'https://images.unsplash.com/photo-1583623733237-4d5764a9dc82?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Z3VjY2klMjBiYWd8ZW58MHx8MHx8fDA%3D',
             'product_category_id' => 5,
             'quantity' => 15,
             'shop_id' => 2,
@@ -105,7 +105,7 @@ class DatabaseSeeder extends Seeder
             'description' => 'watch',
             'price' => '10000',
             'photo' => 'https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8U2FpbnQlMjBsb3JlbnolMjB3YXRjaHxlbnwwfHwwfHx8MA%3D%3D',
-            'product_category_id' => 1,
+            'product_category_id' => 5,
             'quantity' => 15,
             'shop_id' => 1,
         ]);
@@ -117,6 +117,24 @@ class DatabaseSeeder extends Seeder
             'product_category_id' => 4,
             'quantity' => 15,
             'shop_id' => 2,
+        ]);
+        product::create([
+            'name' => 'Eye Glasses',
+            'description' => 'Rayban',
+            'price' => '100000',
+            'photo' => 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cHJvZHVjdHxlbnwwfHwwfHx8MA%3D%3D',
+            'product_category_id' => 5,
+            'quantity' => 12,
+            'shop_id' => 1,
+        ]);
+        product::create([
+            'name' => 'Camer 360',
+            'description' => 'Nikon Kamera',
+            'price' => '100000',
+            'photo' => 'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8cHJvZHVjdHxlbnwwfHwwfHx8MA%3D%3D',
+            'product_category_id' => 5,
+            'quantity' => 12,
+            'shop_id' => 1,
         ]);
     }
 }

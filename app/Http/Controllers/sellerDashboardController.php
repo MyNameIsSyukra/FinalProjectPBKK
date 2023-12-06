@@ -48,12 +48,19 @@ class sellerDashboardController extends Controller
         return view('seller.SellerMyOrder', compact('shop'), compact('ordersArray'));
     }
 
-    public function deleteOrder(order $order, string $id)
+    public function confirmOrder(order $order, string $id)
     {
         // $id = '0';
         // dd($id);
         $order = order::find($id);
-        $order->delete();
+        $product = product::find($order->product_id);
+
+        if ($order->status_payment != 'success') {
+            $product->quantity = $product->quantity - $order->quantity;
+            $product->save();
+        }
+        $order->status_payment = 'success';
+        $order->save();
         return redirect()->route('orderViewSeller');
     }
 }
