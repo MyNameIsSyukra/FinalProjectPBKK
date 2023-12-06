@@ -41,12 +41,22 @@
                     <ul class="mt-4 font-medium flex flex-col p-4 md:p-0 md:flex-row md:space-x-8 rtl:space-x-reverse ">
                         @if (Auth::user() != Null)
 
+                        @if (Auth::user()->role == 1)
+                        <li>
+                            <a href="{{ route('sellerDashboard') }}" class="inline-flex items-center py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">Seller Dashboard</a>
+                        </li>
+                        <li>
+                            <a href="#" class="inline-flex items-center py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150" aria-current="page">My Order</a>
+                        </li>
+                        @endif
+
+                        @endif
+
                         @if (Auth::user()->role == 0)
                         <li>
                             <a href="/homepages/MyCart" class="inline-flex items-center py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">Cart</a>
                             <a href="/homepages/MyOrder" class="inline-flex items-center py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">My Order</a>
                         </li>
-                        @endif
                         @endif
                         <li>
                             <!-- Settings Dropdown -->
@@ -137,6 +147,7 @@
                 <th class="px-4 py-2">Product Name</th>
                 <th class="px-4 py-2">Price</th>
                 <th class="px-4 py-2"></th>
+                <th class="px-4 py-2"></th>
                 <!-- Add more table headers here if needed -->
             </tr>
         </thead>
@@ -152,52 +163,50 @@
                         <button class="btn btn-primary m-3">Delete</button>
                     </form>
                 </td>
-            </tr>
-            @endforeach
-
-            <td class="px-4 py-2 checkbox">
-                    <input type="checkbox" value="{{$product->price}}"
-                     name="selectOrder" onchange="getCheckedValues(this)">
+                <td class="px-4 py-2 checkbox">
+                    <input type="checkbox" value="{{$product->price}}" name="selectOrder" onchange="getCheckedValues(this)">
                 </td>
             </tr>
+
+            <!-- <td clg -->
+            </tr>
             <?php
-            $cart_list_count++
-            ?> 
+            ?>
             @endforeach
             <td style="overflow: hidden; width: 280px; text-align: left; valign: top; whitespace: nowrap;" id="result">Selected values: 0 </td>
             <script>
                 var count = 0;
+
                 function getCheckedValues(product) {
-                const itemsList = product;
-                if(product.checked == true){
-                    count += parseInt(product.value)
-                }
-                else{
-                    count -= parseInt(product.value)
-                }
-                i = 0;
-                // while (document.getElementById(`cart-list-${i}`)){
-                //     i++
-                // };
-                // const checkedItems = document.querySelectorAll("input[type='checkbox'][name='selectOrder']:checked");
-                // const values = [];
-                // for (const item of checkedItems) {
-                //     values.push(item.value);
-                //     i++;
-                // }
-                const resultElement = document.getElementById("result");
-                // resultElement.innerText = `Selected values: ${count} and ${values.join(", ")}`;
-                resultElement.innerText = `Total price: ${count} `;
-                console.log(product);
+                    const itemsList = product;
+                    if (product.checked == true) {
+                        count += parseInt(product.value)
+                    } else {
+                        count -= parseInt(product.value)
+                    }
+                    i = 0;
+                    // while (document.getElementById(`cart-list-${i}`)){
+                    //     i++
+                    // };
+                    // const checkedItems = document.querySelectorAll("input[type='checkbox'][name='selectOrder']:checked");
+                    // const values = [];
+                    // for (const item of checkedItems) {
+                    //     values.push(item.value);
+                    //     i++;
+                    // }
+                    const resultElement = document.getElementById("result");
+                    // resultElement.innerText = `Selected values: ${count} and ${values.join(", ")}`;
+                    resultElement.innerText = `Total price: ${count} `;
+                    console.log(product);
                 }
             </script>
 
             <tr>
                 <td>
-                <button id="checkout-button" type="button" class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Checkout</button>
+                    <button id="checkout-button" type="button" class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Checkout</button>
                 </td>
                 <td>
-                <a href="/topup" id="topup-button" type="button" class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Topup</button>
+                    <a href="/topup" id="topup-button" type="button" class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Topup</button>
                 </td>
             </tr>
         </tbody>
