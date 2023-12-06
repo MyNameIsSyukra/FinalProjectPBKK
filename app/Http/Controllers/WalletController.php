@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\TopupRequest;
 use App\Http\Requests\ConfirmTopupRequest;
 use App\Jobs\ProcessTopup;
+use App\Models\Wallet;
 use Faker\Extension\Helper;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -17,18 +18,24 @@ use Str;
 class WalletController extends Controller
 {
     //
+    public function patchWalletRecord($userId){
+        $userWallet= Wallet::create([
+            'amount'=> 0,
+            'user_id' => $userId
+        ]);
+    }
     public function requestTopup(Request $request): RedirectResponse
     {
         $userId = $request->user()->id;
         // $userId=4;
         $amount = $request->amount;
         $token = Str::random(20);
-        // Log::debug(`test`);
+        Log::debug("$request");
         // Log::info(`Topup amount :{$amount}\nToken :{$token}`);
         TopupRequest::dispatch($userId,$amount,$token);
         // Log::info(`Topup amount :{$amount}\nToken :{$token}`);
 
-        return Redirect::to("/");
+        return Redirect::to("homepages/MyCart");
     }
 
     public function confirmTopup(ConfirmTopupRequest $request):JsonResponse{
@@ -51,5 +58,19 @@ class WalletController extends Controller
             ['Content-type','application/json']
         );
         
+    }
+    public function getCurrentWallet(Request $request){
+        $userId = $request->user()->id;
+        $userWallet=Wallet::where('user_id',$userId)->first();
+        $walletamount = 0;
+        if($userWallet){
+            $walletamount=$userWallet->amount;
+        }
+        else{
+            self::patchWalletRecord($userId);
+        }
+        return view('user.topup-page')->with([
+            'walletAmount'=> $walletamount
+        ]);
     }
 }
