@@ -152,9 +152,10 @@
     <br>
     <tr>
         <form method="POST" action="/request-topup" >
-        <input type="text" id="inputAmount" class="Input-text" name="amount"value="Topup amount e.g. 1000000">
-        <label for="input" class="Input-label"></label>
         @csrf
+        @method('POST')
+        <input type="text" id="amount" class="Input-text" name="amount"placeholder="Topup amount e.g. 1000000">
+        <label for="input" class="Input-label"></label>        
         <button type="submit" 
         class="focus:outline-none text-white bg-green-700 hover:bg-green-800 
         focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm 
