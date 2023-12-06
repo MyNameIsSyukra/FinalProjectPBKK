@@ -13,7 +13,7 @@ $maxWidth = [
     '2xl' => 'sm:max-w-2xl',
 ][$maxWidth];
 @endphp
-
+<?php console.log("test") ?>
 <div
     x-data="{
         show: @js($show),

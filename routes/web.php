@@ -71,7 +71,8 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::controller(WalletController::class)->group(function(){
-    Route::post('/topup','requestTopup')->middleware(['auth','verified']);
+    Route::post('/request-topup','requestTopup')->middleware(['auth','verified']);
+    Route::get('/topup','getCurrentWallet')->middleware(['auth','verified']);
 });
 
 Route::post('checkout/{productId}',[CartController::class,'addToCart']);
