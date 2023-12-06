@@ -140,49 +140,51 @@
             </div>
         </div>
     </nav>
+    <section class="min-h-screen flex items-center justify-center bg-gray-50">
+        <div class="border-8 border-white w-1/2 p-10 custom-bg bg-slate-400 shadow-sm">
+            <h1>Edit Product {{$product->name}}</h1>
+            <form action="/sellerDashbord/MyProductSellerEdit/{{$product->id}}" method="POST" enctype="multipart/form-data">
+                @csrf
+                @method('POST')
+                <div class="mb-4">
+                    <label for="name" class="text-white">Name</label>
+                    <input type="text" id="name" name="name" value="{{ $product->name }}" class="w-full rounded-md py-2 px-3 border border-gray-300  text-black">
+                </div>
+                <div class="mb-4">
+                    <label for="description" class="text-white">Description</label>
+                    <textarea id="description" name="description" class="w-full rounded-md py-2 px-3 border border-gray-300  text-black">{{ $product->description }}</textarea>
+                </div>
+                <div class="flex items-center mb-4">
+                    <label for="product_category" class="pr-1 text-white text-nowrap">Category:</label>
+                    <select name="product_category" id="product_category" class="py-1  text-white">
+                        @foreach (\App\Models\productCategory::all() as $product_category)
+                        <option value="{{ $product_category->name }}" {{ request('product_category') == $product_category->name }}>
+                            {{ $product_category->name }}
+                        </option>
+                        @endforeach
+                    </select>
+                </div>
 
+                <div class="mb-4">
+                    <label for="price" class="text-white">Price</label>
+                    <input type="number" id="price" name="price" value="{{ $product->price }}" class="w-full rounded-md py-2 px-3 border border-gray-300  text-black">
+                </div>
 
-    <section>
-        <div class="max-w-4xl mx-auto py-8">
-            <div class="overflow-x-auto">
-                <table class="min-w-full border-collapse table-auto">
-                    <thead>
-                        <tr class="bg-gray-200 dark:bg-gray-800 text-white">
-                            <th class="px-4 py-2">Product Name</th>
-                            <th class="px-4 py-2">Price</th>
-                            <th class="px-4 py-2">Quantity</th>
-                            <th class="px-4 py-2">Status</th>
-                            <th class="px-4 py-2">Bukti Pembayarn</th>
-                            <th class="px-4 py-2"></th>
-                        </tr>
-                    </thead>
-                    @foreach ($ordersArray as $order)
-                    @foreach ($order as $items)
-                    <tbody>
-                        <tr class="border-b bg-transparent text-center">
-                            <td class="px-4 py-2">{{ $items->name }}</td>
-                            <td class="px-4 py-2">{{ $items->price }}</td>
-                            <td class="px-4 py-2">{{ $items->quantity }}</td>
-                            <td class="px-4 py-2">{{ $items->status_payment }}</td>
-                            <td class="px-4 py-2">{{ $items->screenshot}}</td>
-                            <td class="px-4 py-2">
-                                <form method="POST" action="/sellerDashboard/MyOrderSellerConfirm/{{$items->id}}">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="bg-red-500 text-white py-1 px-4 rounded-md">Confirm</button>
-                                </form>
-                            </td>
-                        </tr>
-                    </tbody>
-                    @endforeach
-                    @endforeach
-                </table>
-            </div>
+                <div class="mb-4">
+                    <label for="quantity" class="text-white">Quantity</label>
+                    <input type="number" id="quantity" name="quantity" value="{{ $product->quantity }}" class="w-full rounded-md py-2 px-3 border border-gray-300  text-black">
+                </div>
+
+                <div class="mb-4">
+                    <label for="image" class="text-white">Image</label>
+                    <input id="photo" type="file" name="image" class=" text-black">
+                </div>
+                <div>
+                    <button type="submit" class="mt-4 bg-purple-500 hover:bg-white text-white hover:text-purple-500 rounded-md py-2 px-4 transition duration-300">Update</button>
+                </div>
+            </form>
         </div>
     </section>
-
-
-
 </body>
 
 </html>

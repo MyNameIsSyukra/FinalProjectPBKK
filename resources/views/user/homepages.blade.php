@@ -262,6 +262,9 @@
             </div>
             @endforeach
         </div>
+        <div style="margin: auto; width: 30%;padding: 10px;">
+            {{$data->links()}}
+        </div>
     </section>
 </body>
 

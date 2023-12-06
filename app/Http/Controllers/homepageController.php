@@ -33,7 +33,7 @@ class homepageController extends Controller
                 // dd($data);
             }
         }
-        $data = $data->get();
+        $data = $data->paginate(3);
         if (Auth::user() != Null) {
             return view('user.homepages', compact('data'));
         } else
@@ -68,6 +68,7 @@ class homepageController extends Controller
         $id = $request->user()->id;
         $amount = product::where('id', $request->productId)->first();
 
+        $request->screenshot->storeAs('public/images/screenshot', $request->screenshot->getClientOriginalName());
         order::create([
             'product_id' => $request->productId,
             'user_id' => $id,
@@ -75,7 +76,7 @@ class homepageController extends Controller
             'quantity' => $request->quantity,
             'total' => $amount->price * $request->quantity,
             'status_payment' => $request->Status_Payment,
-            'screenshot' => $request->screenshot
+            'screenshot' => $request->screenshot->getClientOriginalName(),
         ]);
 
         // dd($productId);
